@@ -6,7 +6,7 @@
     "lodash": "4.17.15",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-trello": "2.2.10",
+    "react-trello": "2.2.11",
     "redux-actions": "2.6.5",
     "redux-logger": "3.0.6",
     "styled-components": "5.0.1"
