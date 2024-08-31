@@ -84,12 +84,14 @@ class App extends Component {
           <h3>React Trello Demo</h3>
         </div>
         <div className="App-intro">
-          <button onClick={this.completeCard} style={{ margin: 5 }}>
-            Complete Buy Milk
-          </button>
-          <button onClick={this.addCard} style={{ margin: 5 }}>
-            Add Blocked
-          </button>
+          <div className="App-top-panel">
+            <button onClick={this.completeCard} style={{ margin: 5 }}>
+              Complete Buy Milk
+            </button>
+            <button onClick={this.addCard} style={{ margin: 5 }}>
+              Add Blocked
+            </button>
+          </div>
           <Board
             editable
             onCardAdd={this.handleCardAdd}

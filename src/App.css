@@ -1,4 +1,11 @@
+#root {
+	height: 100%;
+}
+
 .App {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 }
 
 .App-header {
@@ -6,11 +13,34 @@
   height: 50px;
   padding: 10px;
   color: white;
+	flex: 0 0 auto;
 }
 
 .App-intro {
   font-size: small;
   margin: 0;
+	flex: 1 1 100px;
+	display: flex;
+	flex-direction: column;
+	min-height: 10px; /* prevent from growing larger than available vertical space */
+}
+
+.App-top-panel {
+	display: block;
+	flex: 0 0 auto;
+}
+
+/* prevent inner wrapper from overflowing vertically */
+.react-trello-board > DIV {
+	height: 100%;
+	min-height: 9px;
+	flex: 1 0 auto;
+}
+
+/* prevent smooth-dnd-container from overflowing vertically */
+.react-trello-board > DIV > .smooth-dnd-container {
+	height: 100%;
+	min-height: 9px;
 }
 
 @keyframes App-logo-spin {
