@@ -1,0 +1,1145 @@
+/*! @license
+Copyright Martin Lisowski
+All rights reserved.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. */
+
+body {
+    background: #FFFFFF;
+    font: 9pt Segoe UI,Tahoma,Arial,Sans-serif;
+    line-height: 20px;
+    overflow: hidden;
+    padding: 0px;
+    margin: 0px !important;
+}
+
+#kanban-all { height:100%; }
+#kanban-panel-top {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	column-gap: 1rem;
+	justify-content: space-between;
+	font: 9pt Segoe UI, Tahoma, Arial, Sans-serif;
+	position: relative;
+	height: 29px;
+	overflow: hidden !important;
+}
+.kanban-panel-top-ui-2021 {
+	background: #318CCC;
+	border: 1px solid #318CCC;
+}
+.kanban-panel-top-ui-2023 {
+	background: #EEEEEE;
+	border: none;
+}
+.kanban-panel-top-ui-2024 {
+	background: #F2F4F9;
+	border: none;
+}
+/* Top panel Buttons */
+#kpt-logo {
+	flex: 0 10 auto; /* let logo shrink a lot */
+	margin: 4px 0 2px 4px;
+	padding: 0 1ex 0 0;
+	border: none;
+	min-width: 18px; /* icon only */
+	cursor: pointer;
+}
+#kpt-btn-set, #ButTour {
+	display: inline;
+	border: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+#kpt-btn-set {
+	overflow-x: hidden;
+	overflow-y: hidden;
+	flex: 1 1 auto;
+}
+
+.kpt-btn {
+	display: inline-block;
+	flex: 1 1 auto;
+}
+
+/* Main board display area */
+#kanban-main-listing {
+	margin: 0px;
+	padding: 0px;
+	display: flex; /* let the contained board tabs adapt to height of window */
+	flex-direction: column;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	border: 0px !important; /* override jQuery-UI tabs border which leads to pixel-shift on clicks */
+}
+.kanban-main-listing-ui-2021 {
+	background: #F2F2F2;
+}
+.kanban-main-listing-ui-2023 {
+	background: #FAFAFA;
+}
+.kanban-main-listing-ui-2024 {
+	background: #F2F4F9;
+}
+/* Board container */
+.kbb-container {
+	display: flex;	/* let the contained kanban table adapt to height */
+	flex-direction: column;
+	flex: 1 1 auto;	/* adapt height of this container to its container */
+	/*margin: 0px !important;*/ /* override jQuery-UI ui-tabs default */
+	padding: 2px 0px 0px 0px !important; /* override jQuery-UI ui-tabs default */
+	overflow-x: auto;
+	overflow-y: hidden;
+	width: 100%;
+	background: aqua;
+	border: 0px !important; /* override jQuery-UI ui-tabs default */
+}
+
+/* Board element */
+.kbb {
+	display: block;
+	z-index: 2;
+	overflow: visible; /* overflow-x: auto; overflow-y: auto;  */
+	height: 100%;
+}
+    .kbb > tbody {
+        display: block; /* needed for height 100% to take effect */
+        height: 100%;
+    }
+
+        .kbb > tbody > tr {
+            display: block; /* needed for height 100% to take effect */
+            height: 100%;
+            white-space: nowrap; /* prevent columns to stack when width too low to fit all */
+           /* border: 2px dashed green;*/
+        }
+.kbb-ui-2021 {
+	background: #F2F2F2;
+}
+.kbb-ui-2023 {
+	background: #FAFAFA;
+}
+.kbb-ui-2024 {
+	background: #F2F4F9;
+}
+#kanban-status { font: 9pt Segoe UI, Tahoma, Arial, Sans-serif; margin:0px; border:1px solid #B9D7FC; position: relative; height: 20px; overflow: hidden !important; display: none; }
+#kanban-log { margin: 0px; padding: 0px; height: 50%; overflow:auto; }
+
+.kbb-ctx-menu {
+	cursor: context-menu !important; /* override jQ-ui default */
+}
+
+/* board tabs */
+/* container for tabs */
+.kbb-tabs-ui-2021 {
+	background: #318CCC;
+}
+.kbb-tabs-ui-2023 {
+	background: #EEEEEE;
+}
+.kbb-tabs-ui-2024 {
+	background: #F2F4F9;
+}
+/* individual tab */
+#kbb-tabs.ui-tabs-nav li.kbb-nav.kbb-tabs-nav-ui-2021 {
+	border-color: #C5C5C5 !important;
+	background: #E8E8E8; /* default non-active bg */
+}
+#kbb-tabs.ui-tabs-nav li.kbb-nav.kbb-tabs-nav-ui-2023 {
+	border-color: #C5C5C5 !important;
+	background: #FFFFFF; /* default non-active bg */
+}
+#kbb-tabs.ui-tabs-nav li.kbb-nav.kbb-tabs-nav-ui-2024 {
+	border-color: #C5C5C5 !important;
+	background: #FFFFFF; /* default non-active bg */
+}
+
+/* board tab */
+#kbb-tabs.ui-tabs-nav li.kbb-nav a { /* board nav tab anchor */
+	height: 16px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	font-weight: bold;
+}
+
+/* board tabs - use flexbox to use all available width */
+.ui-tabs #kbb-tabs.ui-tabs-nav {
+	display: flex;
+	flex-wrap: wrap; /* let tabs wrap to another line if too many or too wide */
+	flex: 0 0 auto; /* fix flexbug #1 */
+	width: 100%;
+	box-sizing: border-box;
+	border: none;
+}
+
+	.ui-tabs #kbb-tabs.ui-tabs-nav li.kbb-nav {
+		flex: 1 0 auto; /* fix flexbug #1 */
+		display: flex;
+		margin: 1px 0.5em 0 0; /* 0.2em standard */
+		border-color: #E0E0E1; /*  #C5C5C5 tab border */
+		border-style: solid;
+		border-width: 4px 1px 0; /* was 1px 1px 0 */
+		border-top-left-radius: 4px !important;
+		border-top-right-radius: 4px !important;
+		/* If placed in a small width sidebar or something like that disabling nowrap will fix the overflow issue */
+		/* white-space: normal; */
+	}
+	.ui-tabs #kbb-tabs.ui-tabs-nav li.kbb-nav:last-child {
+		margin-right: 0px;
+	}
+
+        /* active board tab */
+        .ui-tabs #kbb-tabs.ui-tabs-nav li.kbb-nav.ui-state-active.kbb-tabs-nav-ui-2021 {
+            background: #CCCCCC !important; /* override jQuery-UI theme */
+            border-color: #CCCCCC #CCCCCC #CCCCCC !important; /* override jQuery-UI theme */
+        }
+
+        .ui-tabs #kbb-tabs.ui-tabs-nav li.kbb-nav.ui-state-active.kbb-tabs-nav-ui-2023 {
+            background: #CCCCCC !important; /* override jQuery-UI theme */
+            border-color: #0072C6 #CCCCCC #CCCCCC !important; /* override jQuery-UI theme */
+        }
+
+        .ui-tabs #kbb-tabs.ui-tabs-nav li.kbb-nav.ui-state-active.kbb-tabs-nav-ui-2024 {
+            background: #c1c4cd !important; /* override jQuery-UI theme */
+            border-color: #0072C6 #c1c4cd #c1c4cd !important; /* override jQuery-UI theme */
+        }
+        /* active board tab, hover */
+		.ui-tabs #kbb-tabs.ui-tabs-nav li.kbb-nav.ui-state-active.kbb-tabs-nav-ui-2023.ui-state-hover {
+			background: #BCBCBC !important; /* override jQuery-UI theme */
+			border-color: #0072C6 #BCBCBC #BCBCBC !important; /* override jQuery-UI theme */
+		}
+        .ui-tabs #kbb-tabs.ui-tabs-nav li.kbb-nav.ui-state-active.kbb-tabs-nav-ui-2024.ui-state-hover {
+            background: #cdd1da !important; /* override jQuery-UI theme */
+            border-color: #0072C6 #c1c4cd #c1c4cd !important; /* override jQuery-UI theme */
+        }
+        /* active board tab */
+        .ui-tabs #kbb-tabs.ui-tabs-nav li.kbb-nav.ui-state-active a:link {
+            color: #333333 !important;
+        }
+    /* Active board tab */
+    .ui-tabs #kbb-tabs.ui-tabs-nav li.ui-tabs-active.kbb-ctx-menu .ui-tabs-anchor {
+        cursor: context-menu !important; /* override jQ-ui default */
+    }
+
+    /* non-active board tab, unvisited link */
+    .ui-tabs #kbb-tabs.ui-tabs-nav li.kbb-nav.ui-state-default a:link {
+        color: #878787; /* #767676; */
+    }
+
+    .ui-tabs #kbb-tabs.ui-tabs-nav li.kbb-nav a {
+        flex: 1 0 auto;
+        text-align: center; /* If you want to align tab titles center */
+    }
+
+/* Board title */
+TR.kbb-title {
+	border: none;
+	margin: 0px; /* position: relative; */
+	width: 100%;
+	box-sizing: border-box;
+	font-weight: bold;
+	text-align: center;
+}
+DIV.kbb-title {
+	border: none;
+	margin: 0px; /* position: relative; */
+	/*width: 100%;*/
+	box-sizing: border-box;
+	/* background: #CCCCCC; color:#333333;*/
+	font-weight: bold;
+	text-align: center;
+}
+.kbb-title-ui-2021 {
+	background: #CCCCCC;
+	color: #333333;
+}
+.kbb-title-ui-2023 {
+	background: #CCCCCC;
+	color: #363A40;
+}
+.kbb-title-ui-2024 {
+	background: #c1c4cd;
+	color: #363A40;
+}
+/* highlighted board header */
+.kbb .kbbh-hilite-ui-2021 {
+	background: #BCBCBC !important;
+}
+.kbb .kbbh-hilite-ui-2023 {
+	background: #BCBCBC !important;
+}
+.kbb .kbbh-hilite-ui-2024 {
+	/*background: #cdd1da !important;*/
+}
+.kbb-nav .kbbh-hilite-ui-2023 { /* board tab nav highlighting */
+	/*background: blue !important;*/
+}
+.kbb-nav .kbbh-hilite-ui-2024 { /* board tab nav highlighting */
+	/*background: #cdd1da !important;*/
+}
+.kbb-wf-icon {
+	display: inline-block;
+	float: none;
+	width: 0px;
+	height: 16px;
+	margin: 0px 2px 0px 6px;
+	padding: 0px;
+	vertical-align: text-bottom;
+	border: none;
+}
+.kbb-info-icon {
+	display: inline-block;
+	float: none;
+	width: 12px;
+	height: 14px;
+	margin: 0px 2px 0px 6px;
+	padding: 0px;
+	vertical-align: text-bottom;
+	border: none;
+	background: url('./images/more_info.png') no-repeat;
+	background-size: 14px 14px;
+	background-position: 50% 50%;
+	cursor: pointer;
+}
+th { font-weight: bold; }
+
+/* List or board column */
+.kbl {
+	display: inline-flex; /* needed for height to take effect */
+	flex-direction: column;
+	font: 9pt Segoe UI, Tahoma, Arial, Sans-serif;
+	border: none;
+	margin: 0px 1px 0px 1px;
+	padding: 0px;
+	width: 284px;
+	min-width: 200px;
+	max-width: 284px;
+	height: 100%;
+	box-sizing: border-box;
+	white-space: normal; /* undo the white-space: nowrap in the parent TD element */
+	/*overflow: visible !important;*/
+	vertical-align: top;
+	z-index: 5;
+}
+.kbl-ui-2021:nth-child(odd) { background: #F2F2F2; }
+.kbl-ui-2021:nth-child(even) { background: #E6E6E6; }
+.kbl-ui-2023:nth-child(odd) {
+	background: rgba(224, 238, 247, 0.5); /* #E8F4FA; */
+}
+.kbl-ui-2023:nth-child(even) {
+	background: #E0EEF7;
+}
+.kbl-ui-2024:nth-child(odd) {
+	background: rgba(224, 238, 247, 0.5); /* #E8F4FA; */
+}
+.kbl-ui-2024:nth-child(even) {
+	background: #E0EEF7;
+}
+/* debugging coloring */
+/* #kanban-main-listing { background: orange; }
+.kbb { border: 1px solid black; }
+.kbb-thead { border:1px solid green; }
+.kbb-headone { border: 1px solid purple; }
+.kbhi { border: 1px solid grey; }
+.kbb-body { border: 1px solid red; }
+.kbl { border:1px dashed black; }
+.kbl-header { border:1px solid brown; }
+.kbt { border:1px solid blue; }
+.kbl-header-side { border: 1px solid white; }
+.kbts { border: 1px solid yellow; margin: 1px; }*/
+
+.kbl-header {
+	box-sizing: border-box;
+	margin: 0px;
+	border: 1px;
+	padding: 4px; /* background: #CCCCCC; box-shadow: 1px 3px 1px #888888;*/
+	width: 100%; /* set width to fix table column width. 284px - 2*4px padding */
+	/*background-color: beige !important;*/
+	cursor: context-menu !important;
+}
+.kbl-header-ui-2021, .kbl-header-ui-2023 {
+	background: #CCCCCC;
+}
+.kbl-header-ui-2024 {
+	background: #c1c4cd;
+}
+/* highlited list header */
+.kblh-hilite-ui-2021, .kblh-hilite-ui-2023 {
+	background: #BCBCBC;
+}
+.kblh-hilite-ui-2024 {
+	background: #cdd1da;
+}
+
+.kbl-header-min { /* for minimized headers */
+	/*width: 30px;*/
+}
+.kbl-header-anim { /* allow header title to slide in without line wrap */
+	overflow: hidden;
+	text-overflow: clip;
+}
+.kbl-icon {
+	width: 16px; height: 16px;
+	margin: 0px 3px 0px 0px;
+	padding: 0px;
+	border: none;
+	display: inline-block;
+	vertical-align: top;
+	float: none;
+}
+.kbl-title {
+    padding-right: 0.5em;
+    color: #333333;
+    font-weight: bold;
+}
+.kbh-nr {
+    padding: 0px;
+    font-weight: normal;
+    text-decoration: none;
+    color: grey;
+}
+.kbl-header-side {
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 30px;
+    margin: 0px;
+    padding: 4px;
+    /*background: #CCCCCC;*/
+    flex-grow: 2;
+    flex-shrink: 1;
+    flex-basis: 1px;
+    cursor: context-menu !important;
+}
+.kbl-header-side-inner { /* inner container to isolate vertical writing mode from flex box to avoid bug IE flex-direction bug */
+    -ms-writing-mode: tb-lr;
+    writing-mode: vertical-lr;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0px;
+    padding: 0px;
+    color: #333333;
+    font-weight: bold;
+}
+
+/* Task or card container */
+.kbt-hidden { display: none !important; }
+.kbts {
+	flex: 1 1 auto; /* grow and shrink height as needed. Requires tbody, tr, display block and td display inline-flex to take effect */
+	overflow-y: auto;	/* automatic list scrollbars */
+	overflow-x: hidden;
+}
+
+.kbt {	/* invisible container for the task card kbt-content and its children */
+}
+.kbt-style { /* invisible container for the task card kbt-content and its children */
+	margin: 0px 0px 10px 0px;
+	z-index: 10;
+}
+a.kbt-a { text-decoration: none; z-index: 10; }
+/* .kbt div:hover { background: #E5F3FF; } */
+.kbt-titleimage {
+    display: block;
+    text-align: center;
+    border: none;
+    margin: auto;
+}
+/* visible task card */
+.kbt-content {
+	box-sizing: border-box;
+	margin: 3px;
+	border: 1px solid #888888; border-radius: 4px;
+	padding: 3px;
+	text-decoration: none;
+	overflow: hidden;
+	z-index: 11;
+}
+.kbt-content-ui-2021 {
+	background: #FAFAFA;
+	color: #333333;
+}
+.kbt-content-ui-2023, .kbt-content-ui-2024 {
+	background: #FFFFFF;
+	color: #363A40;
+}
+.kbt-deleted {
+	text-decoration: line-through;
+}
+/* visible sub-task card */
+.kbt-content-child-ui-2021 {
+	/* background: #F0F0F0; */
+}
+.kbt-content-child-ui-2023, .kbt-content-child-ui-2024 {
+	/* background: #FFFFFF; */
+}
+/* indent child cards */
+.kbt-child {
+	margin-left: 30px;
+	margin-bottom: 3px !important; /* space child cards closer together */
+}
+/* disabled card */
+.kbt-disabled {
+	display: none !important;
+}
+/* card tags */
+.kbt-tags { margin:3px; border:none; }
+.kbt-tag { margin:3px; border:none; height:8px; color:white; background-color:#448844; border-radius:4px; padding-left:2px; padding-right:2px; padding-top:1px; padding-bottom:1px;  }
+/* debugging coloring *
+.kbt-obj-icon-overlay { border: 1px solid red; }
+*/
+/* Card title */
+.kbt-title {
+	display: block;
+	margin: 3px 0px 3px 0px;
+	font-weight: bold;
+}
+/* Card icons */
+.kbt-obj-icon-overlay {
+	position: absolute;
+	top:0px; left:0px;
+	width:16px; height:16px;
+	vertical-align:top;
+}
+.kbt-title-ui-2021 {
+	color: #333333;
+}
+.kbt-title-ui-2023, .kbt-title-ui-2024 {
+	color: #363A40;
+}
+/* Card files area */
+.kbt-files {
+	display: block;
+	padding-left: 1em;
+	margin-bottom: 3px;
+	font-weight: bold;
+	text-overflow: ellipsis;
+}
+.kbt-file {
+	display: block;
+	margin: 0px;
+	padding: 0px;
+	white-space: nowrap; /* prevent a line wrap between the kbti-file-icon and kbt-file-name when latter is too long  */
+}
+.kbti-file-icon {
+	float: left;
+	width: 16px;
+	height: 16px;
+	margin: 0px 2px 0px 0px;
+	padding: 0px;
+	background: url('./images/paper.svg') no-repeat;
+	background-size: 14px 14px;
+	background-position: center;
+}
+.kbt-file-name {
+	display: block;
+	margin: 0px;
+	padding: 0px;
+	min-width: 100px;
+	width: auto;
+	border: 1px solid transparent; /* do not remove - it will mess up in Desktop client */
+	vertical-align: top;
+	white-space: nowrap;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+}
+/* Card task details area */
+.kbt-details {
+	display: block;
+	max-width: 260px;
+	margin: 0px 0px 3px 0px;
+	border: none;
+	padding: 0px 0px 0px 0px;
+	overflow-wrap: break-word;
+}
+.kbt-desc {
+	display: block;
+	max-width: 260px;
+	margin: 0px 0px 3px 0px;
+	border: none;
+	padding: 0px 0px 0px 0px;
+	overflow-wrap: break-word; word-wrap: break-word;
+	white-space: pre-wrap;
+}
+/* additional properties to display on card: */
+table.kbt-extraprops {
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	table-layout: fixed;
+}
+.kbt-extraprop-name {
+	margin: 0px;
+	padding: 0px 0.5em 0px 0px;
+	text-align: right;
+	vertical-align: top;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.kbt-extraprop-name-ui-2021 {
+	color: #999999;
+}
+.kbt-extraprop-name-ui-2023, .kbt-extraprop-name-ui-2024 {
+	color: #767676;
+}
+.kbt-extraprop-val {
+	margin: 0px;
+	padding: 0px 0px 0px 0.5em;
+	text-align: left;
+	vertical-align: top;
+}
+.kbt-extraprop-val-icon {	/* icon for value list item */
+	display: inline-block;
+	float: none;
+	width: 16px;
+	height: 16px;
+	margin: 0px 2px 0px 0px;
+	padding: 0px;
+	vertical-align: text-bottom;
+}
+col.name {
+	width: 30%;
+}
+col.value {
+	width: 70%
+}
+/* additional properties as part of details pane: */
+.kbt-details-extraprop-name {
+	margin: 0px;
+	padding: 0px 0.5em 0px 0px;
+	text-align: left;
+	vertical-align: top;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.kbt-details-extraprop-val {
+	margin: 0px;
+	padding: 0px 0px 0px 0.5em;
+	text-align: left;
+	vertical-align: top;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+}
+
+/* wrapper for assignee list */
+.kbt-assignees {
+	display: block;
+}
+table.kbtt-assignees {
+	border-collapse: collapse;
+	width: 100%;
+	text-align: right;
+}
+.kbtt-assignees td {
+	margin: 0px;
+	padding: 0px;
+}
+/* various checkbox icons for use in assignments */
+.kbt-assignee-icon {
+	padding: 0px;
+	margin: 0px 3px 0px 0px;
+	display: inline-block;
+	float: none;
+	vertical-align: bottom;
+}
+.kbt-notapproved-icon, .kbt-notcompleted-icon {
+	width: 16px;
+	height: 16px;
+	background: url('./images/not-approved.png') no-repeat;
+	background-size: 16px 16px;
+}
+.kbt-notrejected-icon {
+	width: 16px;
+	height: 16px;
+	background: url('./images/not-rejected.png') no-repeat;
+	background-size: 16px 16px;
+}
+.kbt-approved-icon, .kbt-completed-icon {
+	width: 16px;
+	height: 16px;
+	background: url('./images/approved.png') no-repeat;
+	background-size: 16px 16px;
+}
+.kbt-rejected-icon {
+	width: 16px;
+	height: 16px;
+	background: url('./images/rejected.png') no-repeat;
+	background-size: 16px 16px;
+}
+/* Card subheader style */
+.kbt-subheader {
+	font-weight: bold;
+}
+/* wrapper for related documents / attachments list */
+.kbt-docs {
+	display: block;
+	padding: 0px;
+	margin-bottom: 3px;
+}
+.kbt-docs-ui-2021 {
+	border-top: 1px solid grey;
+	border-bottom: 1px solid grey;
+}
+.kbt-docs-ui-2023, .kbt-docs-ui-2024 {
+	border-top: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+}
+.kbt-doc {
+	margin: 0px;
+	padding-left: 1em;
+	border: 1px solid transparent;
+	text-overflow: ellipsis;
+}
+.kbt-doc-name {
+	display: inline-block;
+	margin: 0px;
+	border: none;
+	text-overflow: ellipsis;
+	vertical-align: top;
+}
+/* icon for links that open in separate window */
+.kbt-openlink-icon {
+	width: 16px;
+	height: 16px;
+	margin: 0px 0px 0px 2px;
+	padding: 0px;
+	vertical-align: top;
+	border: none;
+	display: inline-block;
+	float: none;
+	background: url('./images/openlink_16.png') no-repeat;
+	cursor: pointer;
+}
+/* Card attachment list */
+ul.kbt-attach { margin-block-start: 0.5em; padding-inline-start: 30px; }
+li.kbt-attach {}
+ul.kbt-sep-assign { margin-block-start: 0.5em; padding-inline-start: 30px; }
+li.kbt-sep-assign {}
+
+/* --- Card Icons --- */
+/* container for all icons (icon bar) */
+.kbt-icons {
+	display: block;
+	width: 100%;
+	margin: 0px;
+	border: none;
+	color: #606060;
+	vertical-align: top;
+}
+.kbt-top > .kbt-content > .kbt-icons {
+	height: 20px; /* top level cards always show icons footer at fixed height */
+}
+/* common style for icons */
+.kbt-icon {
+	margin-right: 0.2em;
+	display: inline-block;
+	overflow: hidden;
+	border: none;
+}
+/* Deadline --- */
+.kbt-deadline {
+	display: inline-block;
+	margin-right: 0.2em;
+	padding: 2px 0.3em 0px;
+	height: 19px;
+	border: none;
+}
+/* Calendar icon for due date without highlight */
+.kbt-due-ok {
+	background: url('./images/date-31.svg') no-repeat;
+	background-size: 15px 15px;
+	background-position: left 3px top 2px;
+	padding-left: 21px !important;
+}
+/* highlight, if task is overdue (due yesterday or earlier) */
+.kbt-overdue {
+	color: #FFFFFF;
+	background: url('./images/date-31-hilighted.svg') no-repeat;
+	background-color: #F0B0B0;
+	border-radius: 4px;
+	background-size: 15px 15px;
+	background-position: left 3px top 2px;
+	padding-left: 21px !important;
+}
+/* highlight, if task is due today */
+.kbt-duetoday {
+	background: url('./images/date-31.svg') no-repeat;
+	background-color: #E0E0A0;
+	border-radius: 4px;
+	background-size: 15px 15px;
+	background-position: left 3px top 2px;
+	padding-left: 21px !important;
+}
+/* Comments --- text for number of comments */
+.kbti-comments-nr {
+	display: inline-block;
+	vertical-align: text-top;
+	height: 19px;
+}
+.kbti-comment-icon {
+	margin-right: 0.2em;
+	background: url('./images/comment.svg') no-repeat;
+	background-size: 14px 14px;
+	background-position: left top 1px;
+	padding-left: 16px !important;
+}
+/* Attachments icon --- */
+.kbti-attachments-nr {
+	display: inline-block;
+}
+/* paperclip icon attachments */
+.kbti-clip-icon {
+	margin-right: 0.2em;
+	background: url('./images/clip.svg') no-repeat;
+	background-size: 14px 14px;
+	background-position: left top 1px;
+	padding-left: 16px !important;
+}
+/* Separate assignments icon --- */
+.kbti-assignments-nr {
+	display: inline-block;
+	padding: 2px 0.3em 0px;
+	height: 19px;
+}
+/* icon for separate assignments / sub-tasks */
+.kbti-check-icon {
+	background: url('./images/check-mark-box-line.svg') no-repeat;
+	background-size: 14px 14px;
+	background-position: left 1px top 3px;
+	padding-left: 18px !important;
+}
+/* highlighted icon for separate assignments if all completed */
+.kbti-check-icon-hi {
+	color: #FFFFFF;
+	background: url('./images/check-mark-box-line-hilighted.svg') no-repeat;
+	background-color: #70C060;
+	border-radius: 4px;
+	background-size: 14px 14px;
+	background-position: left 3px top 3px;
+	padding-left: 20px !important;
+}
+/* Subcard icon --- */
+.kbti-subcard-nr {
+	display: inline-block;
+	padding: 0px 0.3em 0px;
+	height: 19px;
+}
+.kbti-checkout {
+	display: inline-block;
+}
+.kbt-checkoutcurr-icon {
+	padding: 0px;
+	margin: 0px 3px 0px 0px;
+	width: 16px;
+	height: 19px;
+	border: none;
+	display: inline-block;
+	float: none;
+	background: url('./images/CheckedOutCurrent24c32.png') no-repeat;
+	background-size: 16px 16px;
+	background-position: left top;
+}
+.kbt-checkoutother-icon {
+	padding: 0px;
+	margin: 0px 3px 0px 0px;
+	width: 16px;
+	height: 19px;
+	border: none;
+	display: inline-block;
+	float: none;
+	background: url('./images/CheckedOutOther48c32.png') no-repeat;
+	background-size: 16px 16px;
+	background-position: left top;
+}
+
+.kbt-people { margin:0px; padding:0px; display:inline-block; height:1.3em; width:80px; float:right; overflow:hidden; white-space: nowrap; text-overflow: ellipsis; vertical-align:bottom; }
+.kbt-end { height: 4em; margin:4px; margin-bottom:10px; border:1px solid #f88888; border-radius:4px; background:#FFFFFF; color:#333333; text-decoration:none; /* box-shadow: 1px 3px 1px #888888; */ z-index:10;  }
+
+.ui-sortable-helper {
+	/* background-color: #E5F3FF !important; */
+	/* border: 1px solid red !important; */
+}
+
+/* placeholder for sortable - is on same hierarchy level as kbt, should have visual margin of kbt-content */
+.kb-placeholder {
+	margin: 3px 3px 10px 3px; /* from kbt-content + kbt-style */
+	height: 25px !important; /* limit height to improve UX */
+	border: 2px dashed black;
+}
+
+table { }
+
+/* table, tr { border:1px solid black; overflow:visible; }
+td { border:1px solid blue !important; padding:2px; overflow:visible; } */
+
+/* --- Selection and other dynamic highlighting --- */
+/* Task cards */
+.kbt-select-ui-2021 {
+	background: #CBE8F6 !important;
+	border: 1px solid #CBE8F6; 
+}
+.kbt-select-ui-2023, .kbt-select-ui-2024 {
+	/*background: #E0E0E1 !important;*/
+	background: #CBE8F6 !important;
+	/* border: 1px solid #E0E0E1; */
+}
+.kbt-hilite-ui-2021 {
+	background: #E5F3FF;
+	border: 1px solid #B9D7FC;
+}
+.kbt-hilite-ui-2023, .kbt-hilite-ui-2024 {
+	/*background: #F4F4F4; */
+	background: #E5F3FF;
+	/* border: 1px solid #F4F4F4; */
+}
+.kbt-dragging {border: 2px solid red !important; }
+
+/* List disabling when dragging cards */
+.kbl-off { /* background-color:#FAFAFA !important; color:#888888 !important; */ opacity: 0.5 !important; }
+
+/* highlight, if task is due today */
+.kbt-allcompleted {
+	background: #70C060;
+	color: #FFFFFF;
+}	/* highlight, if all sep assignments completed */
+
+/* --- Log Window --- */
+.kberrtxt { color: #B00000; }
+.kblogtxt { font-size: 0.8em; font-family: Verdana, Arial, Helvetica, sans-serif; }
+
+/* --- Context Menu --- */
+#kbContextMenu {
+	position: absolute;
+	z-index: 9999;
+	background-color: RGB(238,238,238);
+	box-sizing: border-box;
+	padding: 2px;
+	margin: 2px;
+	display: none;
+	cursor: default;
+	font-family: 'Segoe UI';
+	font-size: 12px;
+	border: groove #bbb 1px;
+	box-shadow: 3px 3px 3px gray;
+}
+UL.kbContextMenu {
+	display: block;
+	margin: 0px;
+	padding: 2px;
+	line-height: 16px;
+	min-width: 180px;
+}
+UL.kbContextMenu > LI {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+/* style for top-level UL.kbContextMenu: */
+.kbMenuWrapper > UL.kbContextMenu {
+	border: none !important; /* remove border because top level has a wrapper DIV with border */
+}
+/* style for lower level UL.kbContextMenu: */
+.kbMenuWrapper > UL.kbContextMenu UL.kbContextMenu {
+	box-shadow: 6px 6px 4px gray; /* bigger shadow (higher up) */
+}
+/* for using Unicode characters as jQuery-UI menu icons: */
+.kbCtxTextIcon {
+	text-indent: 5px !important;
+}
+/* for using IMG elements as jQuery-UI menu icons: */
+.kbCtxCustomIcon {
+	text-indent: 0px !important;
+}
+/* for using IMG elements as jQuery-UI menu items: */
+.ctxItemImg {
+	display: block;
+	margin: 0px;
+}
+/* Fix to make very long image submenus scrollable to prevent drawing off-viewport */
+#CselTitleImg.ui-menu-item .ui-menu {
+	overflow-y: scroll;
+	max-height: 400px;
+}
+/*
+.kbContextMenu LI { display: block; list-style: none; padding: 2px; margin: 0px 2px !important; height: 18px; list-style-type: none; text-align: left; border: none; }
+.kbContextMenu LI br { display: none; }
+.kbContextMenu LI div { display: inline-block; float:left; padding:0px 14px; }
+.kbContextMenu LI img { float:right; width:14px; height:14px; }
+.kbContextMenu LI div:hover { }
+.kbContextMenu li:hover { display: block; background: #91C9F7; }
+.kbContextMenu li:hover > ul { display: block; }
+
+.ctxItemText { float: left; white-space:nowrap; text-overflow: ellipsis; margin:0px; }
+.ctxItemTextBold { font-weight: bold; }
+
+.ctx-separator { border-bottom: 1px solid rgb(192,192,192); font-size: 0; height: 1px !important; line-height: 0px; margin: 2px 2px 0px 2px; padding: 0px !important; } */
+.ctxHotkey {
+	display: inline-block;
+	float: right;
+	padding-left: 14px;
+}
+
+/* overlay for modal jQ dialogs */
+.ui-widget-overlay {
+	opacity: 0.5;
+}
+
+/* --- Set Board Policy dialog --- */
+#kbSetPolicyDialog {
+	display: none;
+	resize: none;
+	overflow: hidden;
+}
+.kbDlgContainer { /* contains auto-resizing boxes */
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	border: none;
+	margin: 0px; 
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+}
+.kbDlgShrink {	/* shrinks - e.g. for title */
+	flex: 0 1 auto;
+	border: 0px;
+}
+.kbDlgGrow { /* grows - e.g. for main content */
+	flex: 1 1 auto;
+	border: none;
+}
+#kbPolicyDialogText {
+	width: 100%;
+	height: 100%;
+}
+/* --- Show Board Policy dialog --- */
+#kbShowPolicyDialog {
+	display: none;
+	white-space: pre-wrap;
+}
+#kbShowPolicyDialogText {
+	box-sizing: border-box;
+	padding: 1em;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: #ffffff;
+	user-select: text;
+	border: 1px solid black;
+}
+/* --- About dialog --- */
+#kbAboutDialog > b {
+	font-size: 1.2em;
+}
+#kbAboutDialog .aboutLicense {
+	font-size: smaller;
+	line-height: 1.4;
+}
+/* --- Message Popup --- */
+#MsgNonmodal {
+	position: fixed;
+	display: none;
+	top: 30px;
+	right: 30px;
+	z-index: 99999; /* background: #e7d6c2; font:normal 10pt Segoe UI,Tahoma,Arial,Sans-serif; padding: 5px; border: 2px solid #d5b09f; box-shadow: 3px 5px 2px #888888; */
+}
+.message { background: #e7d6c2; font:normal 10pt Segoe UI,Tahoma,Arial,Sans-serif; margin: 5px; padding: 5px; border: 2px solid #d5b09f; box-shadow: 3px 5px 2px #888888; }
+
+/* --- Big central message */
+#CenterMsg {
+	font: normal 16pt Segoe UI,Tahoma,Arial,Sans-serif;
+	color: #808080;
+	text-align: center;
+	vertical-align: middle;
+	height: 90%;
+}
+#CenterMsgLink {
+	font: normal 10pt Segoe UI,Tahoma,Arial,Sans-serif;
+}
+/* style like a link */
+.kb-link {
+	text-decoration: underline;
+	color: #318CCC;
+}
+.kb-link:hover {
+	cursor: pointer;
+}
+/* --- Modal Message */
+#MsgModal {
+	font: normal 20pt Segoe UI,Tahoma,Arial,Sans-serif;
+	text-align: center;
+	vertical-align: middle;
+	height: 90%;
+}
+/* Disable jQuery-UI close button for dialogs */
+.no-close .ui-dialog-titlebar-close {
+	display: none
+}
+#kbEULADialogText {
+	padding: 2em;
+	background: white;
+}
+/* Trial License overlay */
+#TrialBackground {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 1;
+	overflow: hidden;
+	color: #000000;
+	pointer-events: none;
+	opacity: 0.05;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font: normal 40pt Segoe UI,Tahoma,Arial,Sans-serif;
+	transform: rotate(-0.07turn);
+}
+#ButFeedback {
+	margin-left: auto;
+	margin-right: 1em;
+	flex: 0 1 auto; /* right-align help button */
+}
+	/* top panel button icon */
+	#ButFeedback .ui-icon.kbEmojiSlightlyHappy {
+		background: url('./images/OpenMoji-1F642.svg') no-repeat;
+		background-size: 20px 20px;
+		background-position: 50% 50%;
+	}
+
+/* --- User Tour Driver.JS --- */
+#ButTour {
+	margin-left: auto;
+	margin-right: 0px;
+	flex: 0 1 auto;
+}
+#ButHelp {
+	margin-left: auto;
+	margin-right: 0px;
+	flex: 0 1 auto; /* right-align help button */
+}
+#ElementTopRight {
+	position: absolute;
+	top: 0px; right: 10px;
+	width: 2px;
+	height: 20px;
+	margin-left: 0px; margin-right: 0px;
+	flex: 0 0 0px;
+}
+/* ---- Debug controls --- */
+#DumpDebug-button, #ButTogLog, #ButLogZero, #ButLogSep {
+	padding-left: 4px !important;
+	padding-right: 4px !important;
+}
+#kpt-txt { 
+	font-size: 8pt;
+	flex-shrink: 3;
+}

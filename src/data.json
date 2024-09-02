@@ -5,20 +5,31 @@
       "title": "Planned Tasks",
       "label": "20/70",
       "style": {"width": 280},
+			"color": "#0072C6",
       "cards": [
         {
           "id": "Milk",
           "title": "Buy milk",
           "label": "15 mins",
+					"deadline": "2024-09-30",
           "cardStyle": { "width": 270, "maxWidth": 270, "margin": "auto", "marginBottom": 5 },
-          "description": "2 Gallons of milk at the Deli store"
+          "description": "2 Gallons of milk at the Deli store",
+					"comments": [
+						{
+							"userName": "AlexK",
+							"comment": "All is good"
+						}
+					],
+					"numberAttachments": 2
         },
         {
           "id": "Plan2",
           "title": "Dispose Garbage",
           "label": "10 mins",
+					"deadline": "2024-08-30",
           "cardStyle": { "width": 270, "maxWidth": 270, "margin": "auto", "marginBottom": 5 },
-          "description": "Sort out recyclable and waste as needed"
+          "description": "Sort out recyclable and waste as needed",
+					"numberAttachments": 1
         },
         {
           "id": "Plan3",
@@ -32,7 +43,8 @@
           "title": "Pay Rent",
           "label": "5 mins",
           "cardStyle": { "width": 270, "maxWidth": 270, "margin": "auto", "marginBottom": 5 },
-          "description": "Transfer to bank account"
+          "description": "Transfer to bank account",
+					"numberAttachments": 5
         }
       ]
     },
